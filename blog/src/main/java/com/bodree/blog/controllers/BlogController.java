@@ -70,7 +70,18 @@ public class BlogController {
                               @RequestParam String fullText,
                               Model model){
         Post post = postRepository.findById(id).orElseThrow();
-        postRepository.save(post);//отправка на сервер
+        post.setTitle(title);
+        post.setAnounce(anounce);
+        post.setFullText(fullText);
+        postRepository.save(post);
+        return "redirect:/blog";
+    }
+
+    @PostMapping("/blog/{id}/remove")
+    public String blogPostDelete(@PathVariable(value = "id") long id,
+                                 Model model){
+        Post post = postRepository.findById(id).orElseThrow();
+        postRepository.delete(post);
         return "redirect:/blog";
     }
 }
